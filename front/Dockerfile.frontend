@@ -1,26 +1,29 @@
 # --- Build Stage ---
 FROM node:20-alpine AS builder
 
-WORKDIR /app
+# Set the working directory for the build stage
+WORKDIR /frontend
 
+# Copy package.json and lock files
 COPY package*.json ./
 RUN npm install
 
+# Copy the rest of the application source code
 COPY . .
-# This runs `next build` to create the optimized production build
 RUN npm run build
 
 # --- Production Stage ---
 FROM node:20-alpine
 
-WORKDIR /app
+# Set the working directory for the production stage
+WORKDIR /frontend
 
-# Copy environment variables from the Coolify UI
-# Copy only the necessary files from the builder stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
+# Copy only the necessary build artifacts from the builder stage
+COPY --from=builder /frontend/.next ./.next
+COPY --from=builder /frontend/node_modules ./node_modules
+COPY --from=builder /frontend/package.json ./package.json
+COPY --from=builder /frontend/public ./public
+COPY --from=builder /frontend/next.config.ts ./
 
 EXPOSE 3000
 
