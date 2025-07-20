@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    ports:
+      - "8010:8010"
     volumes:
       # Update the volume path to use the new workdir
       - chroma-data:/backend/chroma_db
@@ -18,6 +20,8 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
     depends_on:
       - backend
     restart: unless-stopped
