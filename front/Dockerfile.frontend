@@ -1,22 +1,28 @@
-# front/Dockerfile.frontend
+# --- Build Stage ---
+FROM node:20-alpine AS builder
 
-# Use the official Node.js 20 image
-FROM node:20-alpine
-
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first for caching
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
 COPY . .
+# This runs `next build` to create the optimized production build
+RUN npm run build
 
-# Expose the port the app runs on
+# --- Production Stage ---
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy environment variables from the Coolify UI
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/public ./public
+
 EXPOSE 3000
 
-# The command to start the development server
-CMD ["npm", "run", "dev"]
+# The command to start the optimized Next.js server
+CMD ["npm", "start"]
