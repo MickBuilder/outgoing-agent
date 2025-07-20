@@ -30,7 +30,7 @@ services:
       # Mount the frontend code for live reloading
       - ./front:/app
       # Do not map the host's node_modules directory, use the one in the container
-      - /app/node_modules
+      - ./front/app/node_modules
     env_file:
       - ./front/.env.local
     # This ensures the backend is started before the frontend
