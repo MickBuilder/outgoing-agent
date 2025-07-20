@@ -1,4 +1,4 @@
-# main.py
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware 
 from pydantic import BaseModel
@@ -16,8 +16,19 @@ from langchain_core.prompts import ChatPromptTemplate
 # --- App and State Setup ---
 app = FastAPI(title="Connector Agent API")
 session_histories: dict[str, list] = {}
-origins = ["http://localhost:3000"]
-app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+origins = [origin.strip() for origin in allowed_origins_str.split(',')]
+
+print(f"--- Configuring CORS for origins: {origins} ---")
+
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=origins, 
+    allow_credentials=True, 
+    allow_methods=["*"], 
+    allow_headers=["*"]
+)
 
 # --- API Models ---
 class ChatRequest(BaseModel):

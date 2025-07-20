@@ -21,10 +21,6 @@ FROM node:20-alpine
 # Set the working directory for the production stage
 WORKDIR /frontend
 
-# --- Add Healthcheck Dependency ---
-# Install curl for the healthcheck
-RUN apk add --no-cache curl
-
 # Copy only the necessary build artifacts from the builder stage
 COPY --from=builder /frontend/.next ./.next
 COPY --from=builder /frontend/node_modules ./node_modules
@@ -36,7 +32,3 @@ EXPOSE 3000
 
 # The command to start the optimized Next.js server
 CMD ["npm", "start"]
-
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/ || exit 1

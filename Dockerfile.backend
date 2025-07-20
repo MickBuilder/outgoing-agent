@@ -6,10 +6,6 @@ FROM python:3.11-slim
 # Set environment variables to prevent buffering
 ENV PYTHONUNBUFFERED 1
 
-# --- Add Healthcheck Dependency ---
-# Install curl, which we will use for the healthcheck
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-
 # Set the working directory in the container
 WORKDIR /backend
 
@@ -22,7 +18,3 @@ COPY . .
 
 # Expose the port the app runs on
 EXPOSE 8010
-
-# --- Add the Healthcheck Instruction ---
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8010/docs || exit 1
