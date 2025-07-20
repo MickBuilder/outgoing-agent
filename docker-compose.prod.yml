@@ -20,6 +20,8 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile.frontend
+    args:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
       - "3000:3000"
     depends_on:
