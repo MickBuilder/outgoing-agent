@@ -1,0 +1,27 @@
+[
+    {
+        "id": "location",
+        "text": "First off, what city are you in so I can find local events?",
+        "placeholder": "e.g., Paris, France"
+    },
+    {
+        "id": "schedule",
+        "text": "Great! What's your general availability like?",
+        "placeholder": "e.g., Weekday evenings, Weekends"
+    },
+    {
+        "id": "socialStyle",
+        "text": "How do you prefer to socialize?",
+        "placeholder": "e.g., In small, calm groups or at big, lively parties"
+    },
+    {
+        "id": "interests",
+        "text": "What are some of your hobbies or interests?",
+        "placeholder": "e.g., Hiking, board games, trying new restaurants"
+    },
+    {
+        "id": "goal",
+        "text": "Finally, what's your main goal right now?",
+        "placeholder": "e.g., Make new friends, find a partner, just get out more"
+    }
+]

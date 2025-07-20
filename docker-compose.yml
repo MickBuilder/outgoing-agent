@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Backend FastAPI Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the backend code for live reloading
+      - .:/app
+      # Mount a named volume for the ChromaDB database to persist data
+      - chroma-data:/app/chroma_db
+    # Load environment variables from the .env file in the root
+    env_file:
+      - .env
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  # Frontend Next.js Service
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount the frontend code for live reloading
+      - ./front:/app
+      # Do not map the host's node_modules directory, use the one in the container
+      - /app/node_modules
+    env_file:
+      - ./front/.env.local
+    # This ensures the backend is started before the frontend
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+# Define the named volume for persisting ChromaDB data
+volumes:
+  chroma-data:

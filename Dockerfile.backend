@@ -1,0 +1,22 @@
+# Dockerfile.backend
+
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set environment variables to prevent buffering
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file and install dependencies
+# This step is done separately to leverage Docker's layer caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the backend application code
+COPY . .
+
+# The command to run the application will be specified in docker-compose.yml
+# Expose the port the app runs on
+EXPOSE 8000
