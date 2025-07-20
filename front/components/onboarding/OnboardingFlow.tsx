@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Event } from "@/lib/hooks/use-chat";
 
 // Define the structure for a single question
 interface Question {
@@ -22,7 +23,7 @@ interface OnboardingFlowProps {
     userId: string;
     questions: Question[];
     // The onComplete callback now passes the initial agent response!
-    onComplete: (initialResponse: { response_text: string; events: any[] }) => void;
+    onComplete: (initialResponse: { response_text: string; events: Event[] }) => void;
 }
 
 // Zod schema for validating one answer at a time
@@ -83,7 +84,7 @@ export function OnboardingFlow({ userId, questions, onComplete }: OnboardingFlow
         <div className="flex justify-center items-center h-screen bg-muted/20">
             <Card className="w-[550px]">
                 <CardHeader>
-                    <CardTitle>Welcome! Let's create your profile.</CardTitle>
+                    <CardTitle>{"Welcome! Let's create your profile."}</CardTitle>
                     <CardDescription>{currentQuestion.text}</CardDescription>
                 </CardHeader>
                 <CardContent>
