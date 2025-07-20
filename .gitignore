@@ -1,0 +1,36 @@
+# --- General ---
+.DS_Store
+
+# --- Python & Backend ---
+
+# Environment variables
+/.env
+
+# Virtual environment
+/venv/
+
+# Local database files
+/chroma_db/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# --- Node.js & Frontend ---
+
+# Environment variables
+/front/.env.local
+/front/.env.development
+/front/.env.production
+
+# Node modules
+/front/node_modules/
+
+# Next.js build output and cache
+/front/.next/
+/front/out/
+
+# Log files
+/front/npm-debug.log*
+/front/yarn-debug.log*
+/front/yarn-error.log*
